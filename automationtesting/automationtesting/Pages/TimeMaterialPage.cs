@@ -1,9 +1,14 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using automationtesting.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenQA.Selenium.DevTools.V118.Overlay;
+using System.IO;
+
 
 namespace automationtesting.Pages
 {
@@ -38,13 +43,17 @@ namespace automationtesting.Pages
             IWebElement SaveButton = driver.FindElement(By.Id("SaveButton"));
             SaveButton.Click();
 
-            Thread.Sleep(3000);
+
+            //this is the Explicit wait
+            Wait.WaitToBeClickabele(driver, XPath, "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 3);
+
 
             //Check if a new time record has been created successfully
             IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             goToLastPageButton.Click();
 
-            Thread.Sleep(2000);
+            Wait.WaitToBeClickabele(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 3);
+
 
             IWebElement newRecordData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
             newRecordData.Click();
@@ -61,14 +70,112 @@ namespace automationtesting.Pages
         }
 
         public void EditTimeRecord(IWebDriver driver)
-        { 
-        
+        {
+
+            //Click on edit button
+
+            IWebElement clickEditButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
+            clickEditButton.Click();
+
+            //Edit the Code field
+
+            IWebElement editTheCode = driver.FindElement(By.XPath("//*[@id=\"Code\"]"));
+            editTheCode.Click();
+            editTheCode.Clear();
+            editTheCode.SendKeys("komal");
+
+            //edit the description
+
+            IWebElement editTheDescription = driver.FindElement(By.XPath("//*[@id=\"Description\"]"));
+            editTheDescription.Click();
+            editTheDescription.Clear();
+            // Generate the random text
+            string expectedRandomText = Utilities.Utilities.getRandomString(10);
+            editTheDescription.SendKeys(expectedRandomText);
+
+            //Save the Record after edit
+
+            IWebElement saveTheEditRecord = driver.FindElement(By.XPath("//*[@id=\"SaveButton\"]"));
+            saveTheEditRecord.Click();
+
+            Thread.Sleep(3000);
+
+            //Check if a new time record has been created successfully
+            IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+            goToLastPageButton.Click();
+
+            Thread.Sleep(3000);
+
+            //To check if record is edited.
+
+            //Check if a new time record has been edited successfully
+            IWebElement goLastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+            goLastPageButton.Click();
+
+            IWebElement newEditRecord = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            newEditRecord.Click();
+
+            if (newEditRecord.Text == "komal")
+            {
+                Console.WriteLine("Record is edited");
+
+            }
+
+            else
+            {
+                Console.WriteLine("Record is not edited.");
+            }
+
+            IWebElement newEditDescriptionRecord = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            newEditDescriptionRecord.Click();
+
+            //To verify the random text
+
+            // Locate the element on the page where the random text is expected
+            IWebElement textElement = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]")); 
+
+            // Get the text from the web element
+            string actualText = textElement.Text;
+
+            // Compare the text
+            if (actualText.Equals(expectedRandomText))
+            {
+                Console.WriteLine("Verification Passed: Random text matches!");
+            }
+            else
+            {
+                Console.WriteLine("Verification Failed: Random text does not match.");
+            }
+
         }
 
         public void DeleteTimeRecord(IWebDriver driver) 
         {
-        
-        
+
+            //Verify if Record is deleted.
+
+            IWebElement clickLastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+            clickLastPageButton.Click();
+
+            //click the delete button
+            IWebElement clickDeleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
+            clickDeleteButton.Click();
+
+            IWebElement LastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+            LastPageButton.Click();
+
+            if (!IsElementPresent(driver, By.("yourDeletedRecordId")))
+            {
+                Console.WriteLine("Verification Passed: Record is deleted!");
+            }
+            else
+            {
+                Console.WriteLine("Verification Failed: Record is still present.");
+            }
+
+
+
+
         }
 
     }

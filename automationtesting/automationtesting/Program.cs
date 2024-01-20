@@ -7,8 +7,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-
+       
         // open the chrome browser
         IWebDriver driver = new ChromeDriver();
 

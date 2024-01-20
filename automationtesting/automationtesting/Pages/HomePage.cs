@@ -28,6 +28,8 @@ namespace automationtesting.Pages
         {
             //Check if user has logged in successfully
             IWebElement HelloHari = driver.FindElement(By.XPath("//*[@id='logoutForm\']/ul/li/a"));
+
+            //In the code below we are reading the element.
             if (HelloHari.Text == "Hello hari!")
             {
                 Console.WriteLine("The user has logged in");

@@ -16,6 +16,9 @@ namespace automationtesting.Pages
 
             //Launch TurnUp portal and navigate to website login page
             driver.Navigate().GoToUrl("http://horse.industryconnect.io/Account/Login?ReturnUrl=%2fTimeMaterial");
+            //This is Implicit wait.
+            //driver.Manage().TimeOuts().ImplicitWait = TimeSpan.FromSeconds(10);
+
 
             //Enter Username Textbox and enter valid username
             IWebElement userNameTextBox = driver.FindElement(By.XPath("//*[@id='UserName\']"));
