@@ -45,14 +45,14 @@ namespace automationtesting.Pages
 
 
             //this is the Explicit wait
-            Wait.WaitToBeClickabele(driver, XPath, "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 3);
 
 
             //Check if a new time record has been created successfully
             IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             goToLastPageButton.Click();
 
-            Wait.WaitToBeClickabele(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 3);
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 3);
 
 
             IWebElement newRecordData = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
@@ -100,12 +100,7 @@ namespace automationtesting.Pages
 
             Thread.Sleep(3000);
 
-            //Check if a new time record has been created successfully
-            IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
-            goToLastPageButton.Click();
-
-            Thread.Sleep(3000);
-
+           
             //To check if record is edited.
 
             //Check if a new time record has been edited successfully
@@ -148,7 +143,6 @@ namespace automationtesting.Pages
             }
 
         }
-
         public void DeleteTimeRecord(IWebDriver driver) 
         {
 
@@ -161,20 +155,7 @@ namespace automationtesting.Pages
             IWebElement clickDeleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
             clickDeleteButton.Click();
 
-            IWebElement LastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
-            LastPageButton.Click();
-
-            if (!IsElementPresent(driver, By.("yourDeletedRecordId")))
-            {
-                Console.WriteLine("Verification Passed: Record is deleted!");
-            }
-            else
-            {
-                Console.WriteLine("Verification Failed: Record is still present.");
-            }
-
-
-
+            driver.Quit();          
 
         }
 

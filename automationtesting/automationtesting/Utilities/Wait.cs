@@ -10,10 +10,15 @@ namespace automationtesting.Utilities
 {
     public class Wait
     {
-        public static void WaitToBeClickabele(IWebDriver driver, string locatorType, string locatorValue, int seconds); 
+        public static void WaitToBeClickable(IWebDriver driver, string locatorType, string locatorValue, int seconds)
+        {
 
         var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
 
-        Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(locatorValue)));
+        wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(locatorValue)));
+
+        }
+
+
     }
 }
